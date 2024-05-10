@@ -37,36 +37,36 @@ bool SavePassword(const std::string& encryptedPassword, const std::string& key)
     }
 }
 
-std::string RetrievePassword(const std::string& key)
+std::pair<std::string, std::string> RetrievePasswordAndSaltFromFile()
 {
     try
     {
-        // Open the password file for reading
         std::ifstream passwordFile(PASSWORD_FILE_NAME);
         if (!passwordFile)
         {
             // Failed to open the file
-            std::cerr << "Error: Failed to open password file for reading." << std::endl;
-            return "";
+            throw std::runtime_error("Error: Failed to open password file for reading.");
         }
 
-        // Read the encrypted password from the file
         std::string encryptedPassword;
-        std::getline(passwordFile, encryptedPassword);
+        std::string salt;
+
+        // Read the encrypted password and salt from the file
+        if (!(passwordFile >> encryptedPassword >> salt))
+        {
+            // Error reading from file
+            throw std::runtime_error("Error: Failed to read password and salt from file.");
+        }
 
         // Close the file
         passwordFile.close();
 
-        // Decrypt the password
-        std::string decryptedPassword = DecryptAES(encryptedPassword, key);
-
-        // Return the decrypted password
-        return decryptedPassword;
+        return std::make_pair(encryptedPassword, salt);
     }
     catch (const std::exception& ex)
     {
-        std::cerr << "Exception occurred while retrieving password: " << ex.what() << std::endl;
-        return "";
+        std::cerr << "Exception occurred while retrieving password and salt from file: " << ex.what() << std::endl;
+        return std::make_pair("", "");
     }
 }
 

@@ -48,23 +48,24 @@ bool ValidateAndShowPasswordError(HWND hDlg)
     return true;
 }
 
-// Function to save the new password
-// Function to save the new password
+
+
+// Function to save the new password with salt
 void SaveNewPassword(const std::wstring& newPassword)
 {
     try
     {
-        // Convert the new password to std::string
-        std::string newPasswordString(newPassword.begin(), newPassword.end());
+        // Generate a random salt with minimum length of 8 characters
+        std::string salt = GenerateSalt(8);
 
-        // Generate AES key using the function from EncryptionUtils
-        std::string aesKey = GenerateAESKey();
+        // Combine salt with password
+        std::string saltedPassword = salt + std::string(newPassword.begin(), newPassword.end());
 
-        // Encrypt the password
-        std::string encryptedPassword = EncryptAES(newPasswordString, aesKey);
+        // Encrypt the salted password
+        std::string encryptedPassword = EncryptAES(saltedPassword, GenerateAESKey());
 
-        // Save the encrypted password and key
-        if (!SavePassword(encryptedPassword, aesKey))
+        // Save the salt and encrypted password
+        if (!SavePassword(encryptedPassword, salt))
         {
             // Show error message if failed to save the password
             MessageBox(nullptr, L"Failed to save the password.", L"Error", MB_OK | MB_ICONERROR);
@@ -73,6 +74,32 @@ void SaveNewPassword(const std::wstring& newPassword)
     catch (const std::exception& ex)
     {
         std::cerr << "Exception occurred while saving password: " << ex.what() << std::endl;
+    }
+}
+
+// Function to verify password
+bool VerifyPassword(const std::wstring& password)
+{
+    try
+    {
+        // Retrieve salt and encrypted password
+        auto result = RetrievePasswordAndSalt();
+        std::string salt = result.first;
+        std::string encryptedPassword = result.second;
+
+        // Combine salt with input password
+        std::string saltedPassword = salt + std::string(password.begin(), password.end());
+
+        // Encrypt the input password with the retrieved salt
+        std::string encryptedInputPassword = EncryptAES(saltedPassword, GenerateAESKey());
+
+        // Compare encrypted passwords
+        return encryptedInputPassword == encryptedPassword;
+    }
+    catch (const std::exception& ex)
+    {
+        std::cerr << "Exception occurred while verifying password: " << ex.what() << std::endl;
+        return false;
     }
 }
 

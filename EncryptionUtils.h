@@ -21,4 +21,12 @@ std::string DecryptAES(const std::string& encryptedText, const std::string& key)
 
 // Declaration of GenerateAESKey function
 std::string GenerateAESKey();
+
+// Function to generate salt with a minimum length
+std::string GenerateSalt(int length);
+
+
+// Function to retrieve the salt and encrypted password
+std::pair<std::string, std::string> RetrievePasswordAndSalt();
+
 #pragma once

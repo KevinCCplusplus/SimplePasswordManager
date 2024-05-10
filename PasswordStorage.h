@@ -4,6 +4,8 @@
 #include <openssl/rand.h>
 #include <stdexcept>
 
+extern const std::string PASSWORD_FILE_NAME;
+
 // Function to retrieve the stored password
 std::string RetrievePassword(const std::string& key);
 

@@ -24,7 +24,6 @@ To-Do
 
 *Code Refactoring: Refactor the codebase to improve readability, maintainability, and adhere to best practices.
 
-*Enhanced Password Storage: Implement more advanced password storage techniques, such as salting and hashing, to enhance security.
  UI Improvements: Enhance the user interface for better usability and aesthetics.
 
 

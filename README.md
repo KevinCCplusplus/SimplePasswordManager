@@ -11,6 +11,8 @@ Features
 
 *AES Encryption: Encrypt passwords using AES encryption for enhanced security.
 
+*Password Salting: Utilizes salted passwords to enhance security.
+
 
 To-Do
 

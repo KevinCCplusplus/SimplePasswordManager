@@ -11,6 +11,8 @@ Features
 
 *AES Encryption: Encrypt passwords using AES encryption for enhanced security.
 
+*Password Salting: Utilizes salted passwords to enhance security.
+
 
 To-Do
 
@@ -22,8 +24,8 @@ To-Do
 
 *Code Refactoring: Refactor the codebase to improve readability, maintainability, and adhere to best practices.
 
-*Enhanced Password Storage: Implement more advanced password storage techniques, such as salting and hashing, to enhance security.
- UI Improvements: Enhance the user interface for better usability and aesthetics.
+
+ *UI Improvements: Enhance the user interface for better usability and aesthetics.
 
 
 Installation

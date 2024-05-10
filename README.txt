@@ -9,6 +9,8 @@ Features
 
 *Password Validation: Ensure that passwords meet specified criteria including length, uppercase letters, digits, and special characters.
 
+*AES Encryption: Encrypt passwords using AES encryption for enhanced security.
+
 
 To-Do
 
